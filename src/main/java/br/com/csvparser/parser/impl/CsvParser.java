@@ -27,7 +27,6 @@ public class CsvParser implements Parser{
 		
 		Map<String, String> data = reader.getCsvData(filePath);
 		
-		
 		data.forEach((k,v)->System.out.println("Key : " + k + " value : " + v));
 		return populateClass(data, clazz);
 	}

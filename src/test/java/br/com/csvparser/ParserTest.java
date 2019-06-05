@@ -29,7 +29,8 @@ public class ParserTest{
 			File file = new File(classLoader.getResource(FILE_NAME).getFile());
 			System.out.println(file.getAbsolutePath());
 			
-			parser.parseCsv(file.getAbsolutePath(), BalanceRecord.class);
+			BalanceRecord obj = parser.parseCsv(file.getAbsolutePath(), BalanceRecord.class);
+			System.out.println(obj instanceof BalanceRecord);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (CsvFormatException e) {
