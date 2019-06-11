@@ -2,6 +2,7 @@ package br.com.csvparser;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import br.com.csvparser.dto.BalanceRecord;
 import br.com.csvparser.exception.CsvFormatException;
 import br.com.csvparser.parser.impl.CsvParser;
+import junit.framework.Assert;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -29,8 +31,10 @@ public class ParserTest{
 			File file = new File(classLoader.getResource(FILE_NAME).getFile());
 			System.out.println(file.getAbsolutePath());
 			
-			BalanceRecord obj = parser.parseCsv(file.getAbsolutePath(), BalanceRecord.class);
-			System.out.println(obj instanceof BalanceRecord);
+			List<BalanceRecord> objs = (List<BalanceRecord>) parser.parseCsv(file.getAbsolutePath(), BalanceRecord.class);
+			for (BalanceRecord obj : objs) {
+				Assert.assertEquals(obj instanceof BalanceRecord, true);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (CsvFormatException e) {

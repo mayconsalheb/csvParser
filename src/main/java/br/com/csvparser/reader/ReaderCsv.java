@@ -3,6 +3,7 @@ package br.com.csvparser.reader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -26,15 +27,17 @@ public class ReaderCsv {
 	 * @return Map 
 	 * @throws CsvFormatException 
 	 */
-	public Map<String, String> getCsvData(String filePath) throws IOException, CsvFormatException {
-        String contents = new String(Files.readAllBytes(Paths.get(filePath)));
-		List<String> records = Arrays.asList(contents.split(DELIMITADOR));
-		
-		if( records.isEmpty() ) {
-			throw new CsvFormatException("Empty CSV file!");
+	public List<Map<String, String>> getCsvData(String filePath) throws IOException, CsvFormatException {
+        List<String> contents = Files.readAllLines(Paths.get(filePath));
+		List<Map<String, String>> result = new ArrayList<>();
+		for (String record : contents) {
+			List<String> records = Arrays.asList(record.split(DELIMITADOR));
+			if( records.isEmpty() ) {
+				throw new CsvFormatException("Empty CSV file!");
+			}
+			result.add(convertToMap(records));
 		}
-		
-		return convertToMap(records);
+		return result;
 	}
 	
 	private Map<String, String> convertToMap(List<String> records) throws CsvFormatException{

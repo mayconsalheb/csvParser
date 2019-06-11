@@ -3,6 +3,8 @@ package br.com.csvparser.parser.impl;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +27,13 @@ public class CsvParser implements Parser{
 		IOException, CsvFormatException, InstantiationException, IllegalAccessException, ClassNotFoundException, 
 		IllegalArgumentException, NoSuchFieldException, SecurityException {
 		
-		Map<String, String> data = reader.getCsvData(filePath);
-		
-		data.forEach((k,v)->System.out.println("Key : " + k + " value : " + v));
-		return populateClass(data, clazz);
+		List<Map<String, String>> datas = reader.getCsvData(filePath);
+		List<Object> result = new ArrayList<>();
+		for (Map<String, String> data : datas) {
+			data.forEach((k,v)->System.out.println("Key : " + k + " value : " + v));
+			result.add(populateClass(data, clazz));
+		}
+		return (T) result;
 	}
 	
 	private <T> T populateClass(Map<String,String> data, Class<T> clazz) throws 
