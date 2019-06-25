@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import br.com.csvparser.dto.BalanceRecord;
 import br.com.csvparser.exception.CsvFormatException;
-import br.com.csvparser.parser.impl.CsvParser;
+import br.com.csvparser.parser.Parser;
 import junit.framework.Assert;
 
 @RunWith(SpringRunner.class)
@@ -22,7 +22,7 @@ public class ParserTest{
 	public static final String FILE_NAME = "DATA1.CSV";
 	
 	@Autowired
-	private CsvParser parser;
+	private Parser parser;
 
 	@Test
 	public void parserCsvFile() {
