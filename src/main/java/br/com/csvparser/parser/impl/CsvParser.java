@@ -24,8 +24,7 @@ public class CsvParser implements Parser{
 	private ReaderCsv reader;
 
 	public <T> T parseCsv(String filePath, Class<T> clazz) throws 
-		IOException, CsvFormatException, InstantiationException, IllegalAccessException, ClassNotFoundException, 
-		IllegalArgumentException, NoSuchFieldException, SecurityException {
+		IOException, CsvFormatException, Exception{
 		
 		List<Map<String, String>> datas = reader.getCsvData(filePath);
 		List<Object> result = new ArrayList<>();

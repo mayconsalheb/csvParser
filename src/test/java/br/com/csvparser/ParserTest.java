@@ -1,7 +1,8 @@
 package br.com.csvparser;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import org.junit.Test;
@@ -11,9 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import br.com.csvparser.dto.BalanceRecord;
-import br.com.csvparser.exception.CsvFormatException;
 import br.com.csvparser.parser.Parser;
-import junit.framework.Assert;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -24,32 +23,23 @@ public class ParserTest{
 	@Autowired
 	private Parser parser;
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void parserCsvFile() {
+		
 		try {
 			ClassLoader classLoader = getClass().getClassLoader();
 			File file = new File(classLoader.getResource(FILE_NAME).getFile());
 			System.out.println(file.getAbsolutePath());
 			
-			List<BalanceRecord> objs = (List<BalanceRecord>) parser.parseCsv(file.getAbsolutePath(), BalanceRecord.class);
-			for (BalanceRecord obj : objs) {
-				Assert.assertEquals(obj instanceof BalanceRecord, true);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (CsvFormatException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
-			e.printStackTrace();
-		} catch (SecurityException e) {
+			List<BalanceRecord> objs;
+				objs = (List<BalanceRecord>) parser.parseCsv(file.getAbsolutePath(), BalanceRecord.class);
+				assertEquals(true, objs.get(0).getModelo().equals("BC-601"));
+				assertEquals(true, objs.get(0).getIdade().equals("42"));
+				
+				assertEquals(true, objs.get(1).getModelo().equals("BC-6033"));
+				assertEquals(true, objs.get(1).getIdade().equals("42"));
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
